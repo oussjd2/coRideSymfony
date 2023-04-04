@@ -1,0 +1,3 @@
+#index:
+#    path: /job
+#    controller: App\Controller\JobController::index

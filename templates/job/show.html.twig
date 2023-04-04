@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Job{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-bullhorn"></i>
+                        Récrutements
+                    </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    {% for res in job.resJobs %}
+                        <div class="callout callout-info">
+                            <h5>{{ res.email }}</h5>
+
+                            <p>nom : {{ res.nom | upper }} {{ res.prenom }}.</p>
+                            <p>tel : {{ res.telephone }}.</p>
+                            <p>Adresse : {{ res.adress }}.</p>
+                            {% if res.diplome %}
+                                <p>Diplome : <a id="single_image"
+                                                href="{{ asset(directory ~ job.id ~"/"~ res.diplome) }}">{{ res.diplome }}</a>
+                                </p>
+                            {% else %}
+                                <p>Diplome : N/C
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js"></script>
+    <script>
+        $(function () {
+            $("a#single_image").fancybox();
+        });
+    </script>
+{% endblock %}

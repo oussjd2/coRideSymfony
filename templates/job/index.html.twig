@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Job index{% endblock %}
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Les offres de travail</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                        <li class="breadcrumb-item active">Les offres de travail</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Déscription</th>
+            <th>Adresse</th>
+            <th>Salaire</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for job in jobs %}
+            <tr>
+                <td>{{ job.title }}</td>
+                <td>{{ job.description }}</td>
+                <td>{{ job.location }}</td>
+                <td>{{ job.salary }}</td>
+                <td>
+                    <a class="btn btn-danger" onclick="return confirm('Are you sure?')"
+                       href="{{ path('app_job_delete', {'id': job.id}) }}">Supprimer</a>
+                    <a class="btn btn-primary" href="{{ path('app_job_edit', {'id': job.id}) }}">Modifier</a>
+                    <a class="btn btn-warning" href="{{ path('app_job_show', {'id': job.id}) }}">Récrutements ({{ job.resJobs | length }})</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <a class="btn btn-success" href="{{ path('app_job_new') }}">Ajouter</a>
+    </div>
+
+{% endblock %}

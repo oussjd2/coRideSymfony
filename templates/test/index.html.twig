@@ -1,0 +1,61 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css">
+
+<link href="{{ asset('assets/gridView/style.css') }}" rel="stylesheet">
+
+<div class="title">Liste des offres d'emploi</div>
+<div class="buttons">
+</div>
+<div class="wrapper list">
+    <h1 style="text-align: center">Les offres d'emploi</h1>
+    {% for job in jobs %}
+        <div class="item">
+            <a href="javascript:void(0);"><img
+                        src="https://presspay.ng/news/wp-content/uploads/2022/10/jobs.jpg"/></a>
+            <div class="details"><h2>{{ job.title }}</h2>
+                <span>Salaire <span class="price">{{ job.salary |number_format(2, '.', ',') }} DT</span></span>
+                <p>{{ job.description }}.</p>
+                <a class="btn btn-success" data-toggle="modal" data-target="#myModalform-{{ job.id }}">Postuler</a>
+                <hr>
+            </div>
+        </div>
+
+        <div class="modal fade" id="myModalform-{{ job.id }}" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                                data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            {{ job.title }}
+                        </h4>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <form action="{{ path('app_job_res_new',{'id':job.id}) }}" method="post" enctype="multipart/form-data">
+                            {% include 'jobRes/_form.html.twig' %}
+                        </form>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
