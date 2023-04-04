@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ResJobRepository::class)
+ * @ORM\Table(name="resjob")
  */
 class ResJob
 {
