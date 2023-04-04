@@ -23,7 +23,6 @@ class JobResController extends AbstractController
      */
     public function index(JobRepository $jobRepository, Request $request): Response
     {
-
         return $this->render('test/index.html.twig', [
             'jobs' => $jobRepository->findAll(),
 
