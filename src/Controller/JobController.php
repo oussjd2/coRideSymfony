@@ -50,7 +50,6 @@ class JobController extends AbstractController
      */
     public function show(Job $job): Response
     {
-        $publicDirectory = $this->getParameter('file_directory');
         return $this->render('job/show.html.twig', [
             'job' => $job,
             'directory' => "uploads/documents/",

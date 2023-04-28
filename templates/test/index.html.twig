@@ -17,6 +17,28 @@
                 <p>{{ job.description }}.</p>
                 <a class="btn btn-success" data-toggle="modal" data-target="#myModalform-{{ job.id }}">Postuler</a>
                 <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-inline">
+                            <input id="comment-content-{{ job.id }}" style="width: 350px" class="form-control"
+                                   type="text" name="comment" placeholder="tapez votre commentaire"
+                                   required>
+
+                            <a class="btn btn-success"
+                               onclick="addComment({{ job.id }}, '{{ path('app_job_add_comment',{'id':job.id}) }}')">Commenter</a>
+                        </div>
+                        <small id="error-{{ job.id }}" style="color: red;display: none">Champs obligatoire</small>
+                    </div>
+                </div>
+                <hr>
+                <div id="comment-{{ job.id }}">
+                    {% for comment in job.comments %}
+                        - Publié le {{ comment.createdAt | date('d-m-Y') }} : {{ comment.content }}<br>
+                    {% else %}
+                        0 commentaire
+                    {% endfor %}
+                    <br>
+                </div>
             </div>
         </div>
 
@@ -42,11 +64,7 @@
                             {% include 'jobRes/_form.html.twig' %}
                         </form>
                     </div>
-
-                    <!-- Modal Footer -->
-                    <div class="modal-footer">
-
-                    </div>
+                    <div class="modal-footer"></div>
                 </div>
             </div>
         </div>
@@ -59,3 +77,23 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+<script>
+    // add a click event listener to the button
+    function addComment(id, _action) {
+        var _comment = $('#comment-content-' + id).val();
+        if (!_comment) {
+            $('#error-' + id).show();
+            return false;
+        }
+        $('#error-' + id).hide();
+        $.ajax({
+            url: _action,
+            type: "post",
+            data: {'comment': _comment},
+            success: function (html) {
+                $('#comment-content-' + id).val('')
+                $('#comment-' + id).html(html)
+            },
+        })
+    }
+</script>

@@ -1,0 +1,5 @@
+{% for comment in job.comments %}
+    - Publié le {{ comment.createdAt | date('d-m-Y') }} : {{ comment.content }}<br>
+{% else %}
+    0 commentaire
+{% endfor %}

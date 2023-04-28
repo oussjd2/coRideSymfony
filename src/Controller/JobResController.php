@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Job;
 use App\Entity\ResJob;
-use App\Form\ResJobType;
+use App\Repository\CommentRepository;
 use App\Repository\JobRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +28,23 @@ class JobResController extends AbstractController
             'jobs' => $jobRepository->findAll(),
 
         ]);
+    }
+
+    /**
+     * @Route("/comment/new/{id}", name="app_job_add_comment")
+     */
+    public function addComment(Request $request, Job $job, EntityManagerInterface $entityManager, CommentRepository $commentRepository)
+    {
+        $content = $request->request->get('comment');
+        $comment = new Comment();
+        $comment->setContent($content);
+        $comment->setJob($job);
+        $comment->setCreatedAt(new \DateTime());
+        $entityManager->persist($comment);
+        $entityManager->flush();
+        $html = $this->renderView('test/commentList.html.twig', ['comments' => $commentRepository->findBy(['job' => $job])]);
+        return new Response($html);
+
     }
 
     /**
